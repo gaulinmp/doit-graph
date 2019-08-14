@@ -37,6 +37,12 @@ $ doit graph --reverse
 $ doit graph --horizontal
 ```
 
+- To color in tasks based on their `uptodate` status, use option `--uptodate_status` or `-s`. Colors are: green=up-to-date, red=run, grey=ignore, brown=Not tested
+
+```
+$ doit graph --uptodate_status
+```
+
 ### legend
 
 ![Legend](/legend.png)

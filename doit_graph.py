@@ -42,6 +42,15 @@ opt_horizontal = {
     'help': 'draw graph in left-right mode, i.e. add rankdir=LR to digraph output'
 }
 
+opt_uptodate_status = {
+    'name': 'uptodate_status',
+    'short': 's',
+    'long': 'uptodate_status',
+    'type': bool,
+    'default': False,
+    'help': 'Signal uptodate_status on graph by color: green=up-to-date, red=run, grey=ignore, brown=Not tested'
+}
+
 opt_outfile = {
     'name': 'outfile',
     'short': 'o',
@@ -51,6 +60,13 @@ opt_outfile = {
     'help': 'name of generated dot-file',
 }
 
+
+uptodate_colors = {
+    None: {'color':'chocolate4'},
+    'up-to-date': {'color':'springgreen3'},
+    'run': {'color':'firebrick1'},
+    'ignore': {'color':'grey'},
+}
 
 
 class GraphCmd(DoitCmdBase):
@@ -71,7 +87,7 @@ Website/docs: https://github.com/pydoit/doit-graph
     """
     doc_usage = "[TASK ...]"
 
-    cmd_options = (opt_subtasks, opt_outfile, opt_reverse, opt_horizontal)
+    cmd_options = (opt_subtasks, opt_reverse, opt_horizontal, opt_uptodate_status, opt_outfile)
 
 
     def node(self, task_name):
@@ -93,7 +109,7 @@ Website/docs: https://github.com/pydoit/doit-graph
             self.graph.add_edge(source, sink, arrowhead=arrowhead)
 
 
-    def _execute(self, subtasks, reverse, horizontal, outfile, pos_args=None):
+    def _execute(self, subtasks, reverse, horizontal, uptodate_status, outfile, pos_args=None):
         # init
         control = TaskControl(self.task_list)
         self.tasks = control.tasks
@@ -123,6 +139,13 @@ Website/docs: https://github.com/pydoit/doit-graph
 
             # add nodes
             node_attrs = {}
+
+            if (uptodate_status):
+                # Add the node attributes from the dictionary: uptodate_colors[status]
+                # Using the **dict syntax allows for multiple attributes to be set at once
+                status = self.dep_manager.get_status(task, self.tasks).status
+                node_attrs.update(uptodate_colors[status])
+
             if task.has_subtask:
                 node_attrs['peripheries'] = '2'
             if (not task.subtask_of) or subtasks:

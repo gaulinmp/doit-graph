@@ -4,6 +4,12 @@ Changes
 =======
 
 
+0.4.0 (*2019-08-14*)
+====================
+
+- Support signaling the `uptodate` status via color: [green=up-to-date, red=run, grey=ignore, brown=Not tested], using `--uptodate_status` or `-s` option.
+
+
 0.3.0 (*2019-08-11*)
 ====================
 
@@ -27,4 +33,3 @@ Changes
 ====================
 
 - initial release
-
