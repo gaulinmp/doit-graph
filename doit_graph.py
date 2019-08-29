@@ -26,7 +26,7 @@ opt_subtasks = {
 
 opt_reverse = {
     'name': 'reverse',
-    'short': '',
+    'short': 'r',
     'long': 'reverse',
     'type': bool,
     'default': False,
@@ -66,6 +66,7 @@ uptodate_colors = {
     'up-to-date': {'color':'springgreen3'},
     'run': {'color':'firebrick1'},
     'ignore': {'color':'grey'},
+    'error': {'color':'yellow'},
 }
 
 
@@ -169,4 +170,3 @@ Website/docs: https://github.com/pydoit/doit-graph
             self.graph.reverse().write(outfile)
         else:
             self.graph.write(outfile)
-
